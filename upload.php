@@ -12,7 +12,7 @@ if (isset($_FILES['upload']['name'])) {
     if (in_array($extension, $allowed_extension)) {
         move_uploaded_file($file, 'upload/' . $new_image_name);
         $function_number = $_GET['CKEditorFuncNum'];
-        $url = 'upload/' . $new_image_name;
+        $url = '/news_task/upload/' . $new_image_name;
         $message = '';
         echo "<script type='text/javascript'>
         window.parent.CKEDITOR.tools.callFunction($function_number, '$url', '$message');

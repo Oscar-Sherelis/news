@@ -49,15 +49,13 @@ if (isset($_POST['news_type']) && isset($_POST['news_limit'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="/news_task/styles/style.css">
     <title>News</title>
 </head>
 
 <body>
     <?php
-
-    require './header.php';
-
+    require $_SERVER['DOCUMENT_ROOT'] . "/news_task/header.php";
     ?>
     <section class="news">
         <div class="filter_news">
@@ -80,9 +78,11 @@ if (isset($_POST['news_type']) && isset($_POST['news_limit'])) {
         </div>
         <div class="news__content">
             <?php foreach ($news as $arrItem) : ?>
-                <a href="<?php print './news.php?id=' . $arrItem['id']; ?>">
-                    <?php print $arrItem['short'] . " (" .  $arrItem['text'] . ")"; ?>
-                </a>
+                <div class="news__content_item">
+                    <a href="<?php print './news.php?id=' . $arrItem['id']; ?>">
+                        <?php print $arrItem['short'] . " (" .  $arrItem['text'] . ")"; ?>
+                    </a>
+                </div>
             <?php endforeach; ?>
         </div>
     </section>

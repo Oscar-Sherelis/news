@@ -10,7 +10,10 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
     $user = htmlentities($user, ENT_QUOTES, 'UTF-8');
     $password = htmlentities($password, ENT_QUOTES, 'UTF-8');
 
-    require "./services/Queries.php";
+
+    require $_SERVER['DOCUMENT_ROOT'] .
+        "/news_task/services/Queries.php";
+
     $checkUser = new Queries;
 
     session_start();
@@ -26,7 +29,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
         && $user = 'admin'
     ) {
         $_SESSION['loged_in'] = $user;
-        header("Location: ./admin/admin.php");
+        header("Location: /news_task/admin/admin.php");
     } else if ($checkUser->checkIfUserExists(
         "SELECT * FROM users WHERE user = ? AND password = ?",
         [
@@ -34,10 +37,10 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
         ]
     ) > 0) {
         $_SESSION['loged_in'] = $user;
-        header("Location: ./index.php");
+        header("Location: /news_task/index.php");
     } else {
         $_SESSION['login_error'] = 'Wrong username or password';
-        header("Location: ./login.php");
+        header("Location: /news_task/login.php");
     }
 }
 
@@ -49,15 +52,13 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="/news_task/styles/style.css">
     <title>Login</title>
 </head>
 
 <body>
     <?php
-
-    require './header.php';
-
+    require $_SERVER['DOCUMENT_ROOT'] . "/news_task/header.php";
     ?>
     <section class="login">
         <form class="login__form" method="POST">

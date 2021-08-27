@@ -6,8 +6,9 @@ if (isset($_GET['id'])) {
 
     $id = filter_var($_GET['id'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $id = htmlentities($id, ENT_QUOTES, 'UTF-8');
-
-    require "./services/Queries.php";
+    
+    require $_SERVER['DOCUMENT_ROOT'] .
+        "/news_task//services/Queries.php";
     $data = new Queries;
     $todayDate = date("Y-m-d H:i:s");
     $singleItemFromNewsTable = $data->loadData(
@@ -30,14 +31,13 @@ if (isset($_GET['id'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="/news_task/styles/style.css">
     <title>Single article</title>
 </head>
 
 <body>
     <?php
-
-    require './header.php';
+    require $_SERVER['DOCUMENT_ROOT'] . "/news_task/header.php";
     ?>
     <section class="single_info">
         <?php foreach ($singleItemFromNewsTable as $arr) : ?>

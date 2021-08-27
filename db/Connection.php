@@ -1,6 +1,5 @@
 <?php
 
-
 require_once $_SERVER['DOCUMENT_ROOT'] . "/news_task/db/config.php";
 
 class Connection
