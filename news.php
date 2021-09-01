@@ -4,11 +4,13 @@ session_start();
 
 if (isset($_GET['id'])) {
 
-    $id = filter_var($_GET['id'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $id = htmlentities($id, ENT_QUOTES, 'UTF-8');
+    require $_SERVER['DOCUMENT_ROOT'] .
+        "/news_task/services/Sanitizevalidate.php";
+    $sanitizeObject = new Sanitizevalidate;
+    $id = $sanitizeObject->cleanInput($_GET['id'], 'int');
     
     require $_SERVER['DOCUMENT_ROOT'] .
-        "/news_task//services/Queries.php";
+        "/news_task/services/Queries.php";
     $data = new Queries;
     $todayDate = date("Y-m-d H:i:s");
     $singleItemFromNewsTable = $data->loadData(

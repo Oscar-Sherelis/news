@@ -17,7 +17,6 @@ class Queries extends Connection
         $con = $this->connect();
         $generatedQuery = $con->prepare($query);
         $this->bindParamsBySettings($generatedQuery, $bindParamArr);
-        // $generatedQuery->execute();
 
         return $generatedQuery->rowCount();
     }
@@ -27,7 +26,7 @@ class Queries extends Connection
         $con = $this->connect();
         $generatedQuery = $con->prepare($query);
         $this->bindParamsBySettings($generatedQuery, $bindParamArr);
-        // $generatedQuery->execute();
+
         return $generatedQuery->fetchAll();
     }
 

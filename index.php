@@ -1,7 +1,11 @@
 <?php
 
 session_start();
-require "./services/Queries.php";
+require $_SERVER['DOCUMENT_ROOT'] .
+    "/news_task/services/Queries.php";
+require $_SERVER['DOCUMENT_ROOT'] .
+    "/news_task/services/Sanitizevalidate.php";
+$sanitizeObject = new Sanitizevalidate;
 
 $todayDate = date("Y-m-d H:i:s");
 $data = new Queries;
@@ -19,16 +23,12 @@ $typesName = $data->loadData("SELECT * FROM news_type");
 
 if (isset($_POST['news_type']) && isset($_POST['news_limit'])) {
 
-    $newsType = filter_var($_POST['news_type'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $newsType = htmlentities($newsType, ENT_QUOTES, 'UTF-8');
+    $newsType = $sanitizeObject->cleanInput($_POST['news_type'], 'int');
+    $newsLimit = $sanitizeObject->cleanInput($_POST['news_limit'], 'int');
 
-    $newsLimit = filter_var($_POST['news_limit'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $newsLimit = htmlentities($newsLimit, ENT_QUOTES, 'UTF-8');
-
-    if (is_int((int)$newsLimit) && is_int((int)$newsType)) {
-        $_POST['filter_form_error'] = '';
-        $news = $data->loadData(
-            "SELECT nw.id, nw.short, nt.text 
+    $_POST['filter_form_error'] = '';
+    $news = $data->loadData(
+        "SELECT nw.id, nw.short, nt.text 
             FROM news nw, news_type nt 
             WHERE nw.visible_at <= '$todayDate' 
             AND nw.visible = true 
@@ -36,11 +36,9 @@ if (isset($_POST['news_type']) && isset($_POST['news_limit'])) {
             AND nw.type = nt.id 
             GROUP BY id
             LIMIT $newsLimit;",
-        );
-    } else {
-        $_POST['filter_form_error'] = 'Wrong input format';
-    }
+    );
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,11 +67,6 @@ if (isset($_POST['news_type']) && isset($_POST['news_limit'])) {
                 </select>
                 <input type="number" placeholder="Limit news number" name="news_limit" required>
                 <button type="submit">Filter news</button>
-                <p class="filter_error">
-                    <?php if (isset($_POST['filter_form_error'])) : ?>
-                        <?php print $_POST['filter_form_error']; ?>
-                    <?php endif; ?>
-                </p>
             </form>
         </div>
         <div class="news__content">

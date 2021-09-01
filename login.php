@@ -4,19 +4,17 @@ session_start();
 
 if (isset($_POST['user']) && isset($_POST['password'])) {
 
-    $user = filter_var($_POST['user'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $password = filter_var($_POST['password'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    require $_SERVER['DOCUMENT_ROOT'] .
+        "/news_task/services/Sanitizevalidate.php";
+    $sanitizeObject = new Sanitizevalidate;
 
-    $user = htmlentities($user, ENT_QUOTES, 'UTF-8');
-    $password = htmlentities($password, ENT_QUOTES, 'UTF-8');
-
+    $user = $sanitizeObject->cleanInput($_POST['user'], 'string');
+    $password = $sanitizeObject->cleanInput($_POST['password'], 'string');
 
     require $_SERVER['DOCUMENT_ROOT'] .
         "/news_task/services/Queries.php";
 
     $checkUser = new Queries;
-
-    session_start();
 
     // check if admin exists
     if (
@@ -38,10 +36,9 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
     ) > 0) {
         $_SESSION['loged_in'] = $user;
         header("Location: /news_task/index.php");
-    } else {
-        $_SESSION['login_error'] = 'Wrong username or password';
-        header("Location: /news_task/login.php");
     }
+    $_SESSION['login_error'] = 'Wrong username or password';
+    header("Location: /news_task/login.php");
 }
 
 ?>
@@ -62,10 +59,14 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
     ?>
     <section class="login">
         <form class="login__form" method="POST">
-            <h3>Login</h3>
-            <input type="text" name="user" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
+            <?php if (isset($_SESSION['loged_in'])) : ?>
+                <h3>Already logedin</h3>
+            <?php else : ?>
+                <h3>Login</h3>
+                <input type="text" name="user" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            <?php endif; ?>
         </form>
     </section>
 </body>

@@ -27,6 +27,10 @@ nav a {
   color: #000;
 }
 
+nav a:hover {
+  border-bottom: 2px solid #000;
+}
+
 nav a:last-child {
   margin-right: 0;
 }
@@ -64,8 +68,12 @@ button {
   padding: 10px;
 }
 
-.news_limit_form input[type="number"] {
-  width: 155px;
+.news_limit_form {
+  padding: 30px 0;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .filter_error {
@@ -97,8 +105,38 @@ button {
   justify-content: space-between;
 }
 
+/* login */
+
+.login {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login__form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.login__form input {
+  margin-bottom: 10px;
+}
+
+.login__form button {
+  width: 100px;
+}
 @media (max-width: 600px) {
   * {
     font-size: 16px;
+  }
+
+  .login__form {
+    width: 80%;
+  }
+
+  .news_limit_form input[type="number"] {
+    width: 100px;
   }
 }
