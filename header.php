@@ -13,6 +13,7 @@
                         <a href="/news_task/">
                             <?php print $_SESSION['loged_in']; ?> Loged in
                         </a>
+                        <a href="/logout.php">Logout</a>
                     <?php endif ?>
                 </div>
             <?php else : ?>
