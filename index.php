@@ -8,10 +8,10 @@ require $_SERVER['DOCUMENT_ROOT'] .
 $sanitizeObject = new Sanitizevalidate;
 
 $todayDate = date("Y-m-d H:i:s");
-$data = new Queries;
+$queryObject = new Queries;
 // nw = news table
 // nt = news_type table
-$news = $data->loadData(
+$news = $queryObject->loadData(
     "SELECT nw.id, nw.short, nt.text 
     FROM news nw, news_type nt 
     WHERE nw.visible_at <= '$todayDate'
@@ -19,7 +19,7 @@ $news = $data->loadData(
     AND nw.type = nt.id 
     GROUP BY id"
 );
-$typesName = $data->loadData("SELECT * FROM news_type");
+$typesName = $queryObject->loadData("SELECT * FROM news_type");
 
 if (isset($_POST['news_type']) && isset($_POST['news_limit'])) {
 
@@ -27,7 +27,7 @@ if (isset($_POST['news_type']) && isset($_POST['news_limit'])) {
     $newsLimit = $sanitizeObject->cleanInput($_POST['news_limit'], 'int');
 
     $_POST['filter_form_error'] = '';
-    $news = $data->loadData(
+    $news = $queryObject->loadData(
         "SELECT nw.id, nw.short, nt.text 
             FROM news nw, news_type nt 
             WHERE nw.visible_at <= '$todayDate' 

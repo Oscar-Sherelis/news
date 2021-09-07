@@ -6,9 +6,9 @@ if (isset($_SESSION['loged_in']) && $_SESSION['loged_in'] === 'admin') {
     $message = '';
     if (isset($_POST['delete_article']) && is_int((int)$_POST['delete_article'])) {
         require $_SERVER['DOCUMENT_ROOT'] . "/news_task/services/Queries.php";
-        $data = new Queries;
+        $queryObject = new Queries;
         $idInput = (int)$_POST['delete_article'];
-        $news = $data->executionQuery("DELETE FROM news WHERE id= $idInput");
+        $news = $queryObject->executionQuery("DELETE FROM news WHERE id= $idInput");
         $message = 'Deleted successfully';
     } else {
         $message = 'Invalid input';

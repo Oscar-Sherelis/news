@@ -14,11 +14,11 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
     require $_SERVER['DOCUMENT_ROOT'] .
         "/news_task/services/Queries.php";
 
-    $checkUser = new Queries;
+    $queryObject = new Queries;
 
     // check if admin exists
     if (
-        $checkUser->checkIfUserExists(
+        $queryObject->checkIfUserExists(
             "SELECT * FROM users WHERE user = ? AND password = ?",
             [
                 $user, $password
@@ -28,7 +28,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
     ) {
         $_SESSION['loged_in'] = $user;
         header("Location: /news_task/admin/admin.php");
-    } else if ($checkUser->checkIfUserExists(
+    } else if ($queryObject->checkIfUserExists(
         "SELECT * FROM users WHERE user = ? AND password = ?",
         [
             $user, $password

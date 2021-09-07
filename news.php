@@ -11,9 +11,9 @@ if (isset($_GET['id'])) {
     
     require $_SERVER['DOCUMENT_ROOT'] .
         "/news_task/services/Queries.php";
-    $data = new Queries;
+    $queryObject = new Queries;
     $todayDate = date("Y-m-d H:i:s");
-    $singleItemFromNewsTable = $data->loadData(
+    $singleItemFromNewsTable = $queryObject->loadData(
         "SELECT short, full_text, type, updated_at FROM news WHERE id = ? AND visible_at <= '$todayDate' AND visible = true",
         [
             $id
@@ -21,7 +21,7 @@ if (isset($_GET['id'])) {
     );
 
     $newsTypeField = $singleItemFromNewsTable[0]['type'];
-    $news_typeArr = $data->loadData("SELECT text FROM news_type WHERE id = '$newsTypeField'");
+    $news_typeArr = $queryObject->loadData("SELECT text FROM news_type WHERE id = '$newsTypeField'");
     $newsTypeName = $news_typeArr[0]['text'];
 }
 

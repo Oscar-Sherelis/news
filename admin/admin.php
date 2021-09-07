@@ -7,14 +7,14 @@ if (isset($_SESSION['loged_in']) && $_SESSION['loged_in'] === 'admin') {
     require $_SERVER['DOCUMENT_ROOT'] . "/news_task/services/Queries.php";
 
     $todayDate = date("Y-m-d H:i:s");
-    $data = new Queries;
-    $news = $data->loadData(
+    $queryObject = new Queries;
+    $news = $queryObject->loadData(
         "SELECT nw.id, nw.short, nt.text 
 FROM news nw, news_type nt 
 WHERE nw.visible_at <= '$todayDate' AND nw.type = nt.id 
 GROUP BY id"
     );
-    $typesName = $data->loadData("SELECT * FROM news_type");
+    $typesName = $queryObject->loadData("SELECT * FROM news_type");
 
     if (isset($_POST['news_type']) && isset($_POST['news_limit'])) {
 
@@ -26,7 +26,7 @@ GROUP BY id"
 
         if (is_int((int)$newsLimit) && is_int((int)$newsType)) {
             $_POST['filter_form_error'] = '';
-            $news = $data->loadData(
+            $news = $queryObject->loadData(
                 "SELECT nw.id, nw.short, nt.text 
             FROM news nw, news_type nt 
             WHERE nw.visible_at <= '$todayDate' 

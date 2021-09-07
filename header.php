@@ -5,10 +5,12 @@
                 <div>
                     <?php if ($_SESSION['loged_in'] === 'admin') : ?>
                         <a href="/news_task/admin/admin.php">
-                            <?php print $_SESSION['loged_in']; ?> Loged in
-                            <a href="/news_task/admin/edit_types.php">Edit types</a>
-                            <a href="/news_task/admin/new_article.php">New article</a>
+                            <?php print $_SESSION['loged_in']; ?>
                         </a>
+                        <a href="/news_task/logout.php">Logout</a>
+                        <a href="/news_task/admin/types.php">Edit types</a>
+                        <a href="/news_task/admin/new_article.php">New article</a>
+
                     <?php else : ?>
                         <a href="/news_task/">
                             <?php print $_SESSION['loged_in']; ?> Loged in

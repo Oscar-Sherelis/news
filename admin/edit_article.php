@@ -7,14 +7,14 @@ $message = "";
 
 if (isset($_SESSION["loged_in"]) && $_SESSION["loged_in"] === "admin") {
     require $_SERVER["DOCUMENT_ROOT"] . "/news_task/services/Queries.php";
-    $data = new Queries;
+    $queryObject = new Queries;
 
     // load form to edit
     if (isset($_POST["edit_article"]) && is_int((int)$_POST["edit_article"])) {
 
         $idInput = (int)$_POST["edit_article"];
-        $newsToEdit = $data->loadData("SELECT * FROM news WHERE id= $idInput");
-        $typesNameArr = $data->loadData("SELECT * FROM news_type");
+        $newsToEdit = $queryObject->loadData("SELECT * FROM news WHERE id= $idInput");
+        $typesNameArr = $queryObject->loadData("SELECT * FROM news_type");
     }
 
     // update row
@@ -28,7 +28,7 @@ if (isset($_SESSION["loged_in"]) && $_SESSION["loged_in"] === "admin") {
         $fullText = $_POST["full_text"];
 
     
-        $data->executionQuery(
+        $queryObject->executionQuery(
             "UPDATE news 
         SET 
         short = ?, 

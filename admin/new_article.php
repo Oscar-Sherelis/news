@@ -5,11 +5,14 @@ session_start();
 $message = "";
 
 if (isset($_SESSION['loged_in']) && $_SESSION['loged_in'] === 'admin') {
+    require $_SERVER['DOCUMENT_ROOT'] .
+        "/news_task/services/Sanitizevalidate.php";
+    $sanitizeObject = new Sanitizevalidate;
 
     require $_SERVER["DOCUMENT_ROOT"] . "/news_task/services/Queries.php";
-    $data = new Queries;
+    $queryObject = new Queries;
 
-    $typesNameArr = $data->loadData("SELECT * FROM news_type");
+    $typesNameArr = $queryObject->loadData("SELECT * FROM news_type");
 
     if (isset($_POST['add_article'])) {
 
@@ -19,7 +22,7 @@ if (isset($_SESSION['loged_in']) && $_SESSION['loged_in'] === 'admin') {
         $selectedType = (int)$_POST["select_type"];
         $fullText = $_POST["full_text"];
 
-        $data->executionQuery(
+        $queryObject->executionQuery(
             "INSERT INTO news 
             (short, full_text, visible, type, created_at, updated_at, visible_at)
             VALUES(?, ?, $visible, $selectedType, '$todayDate', '$todayDate', '$todayDate') ",
